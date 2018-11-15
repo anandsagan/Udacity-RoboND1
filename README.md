@@ -48,7 +48,24 @@ Then launch the simulator and choose "Autonomous Mode".  The rover should drive 
 
 **Note: running the simulator with different choices of resolution and graphics quality may produce different results!  Make a note of your simulator settings in your writeup when you submit the project.**
 
-### Project Walkthrough
-If you're struggling to get started on this project, or just want some help getting your code up to the minimum standards for a passing submission, we've recorded a walkthrough of the basic implementation for you but **spoiler alert: this [Project Walkthrough Video](https://www.youtube.com/watch?v=oJA6QHDPdQw) contains a basic solution to the project!**.
+## My Contributions
+There were two parts to this project that were to be fulfilled, the Notebook analysis and the autonomous navigation and mapping. Majority of the analysis was first testing in the process_image() in the Rover notebook and transferred into the perception_step function. The decision_step function provides the rover with the best course of action given the circumstance.
+
+### Notebook Analysis
+The obstacle identification that I implemented is fairly straighforward. I used the same threshold as the one for the path detection. I determined that wherever it was below the threshold, it's an obstacle (except for the rocks). I implemented an HSV filter to identify the rocks in the warped image. The lower and upper limits of the yellow filter in HSV are [90,100,100] and [100,255,255], respectively. Then using the coordinates for the rocks, path, and obstacles, the pix_to_world function returns a worldmap of the all the components. The world map shows the path in red, obstacles in blue, and rocks in white. The output video can be found in the output folder of this repository.
+
+### Autonomous Navigation and Mapping
+The perception_step() is similar to the process_image() function in the Rover test notebook, but it only contains the key variables and elements. It returns Rover, which updates the values in drive_rover.py so it can be accessed by decision.py. 
+
+The decision_step() function determines what the rover does when Rover is updated. The key functionalities I added allows the rover to navigate to and pick up rocks when they are visible. If there are no rocks present and there is room to go forward, the throttle is set to 0.3 and steers towards the average direction of the visible path. If there's no room to go forward, the rover stops and turns 15 degrees until it can seem some of the path.
+
+There are two main modes for the Rover, forward and stop. It goes forward when there is room to move and stops when there isn't. Sometimes, when the rock is in a corner, the Rover.mode will be stop, but it will keep incrementing forward until it has picked up the rock.
+
+
+
+
+
+
+
 
 
